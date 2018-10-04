@@ -8,15 +8,24 @@ use Symfony\Component\HttpFoundation\Request;
 require __DIR__.'/../vendor/autoload.php';
 
 // The check is to ensure we don't use .env in production
+<<<<<<< HEAD
 if (!isset($_SERVER['APP_ENV']) && !isset($_ENV['APP_ENV'])) {
+=======
+if (!isset($_SERVER['APP_ENV'])) {
+>>>>>>> e8534e98c0d4f8ebb5e48e892df3f6ab0c04b830
     if (!class_exists(Dotenv::class)) {
         throw new \RuntimeException('APP_ENV environment variable is not defined. You need to define environment variables for configuration or add "symfony/dotenv" as a Composer dependency to load variables from a .env file.');
     }
     (new Dotenv())->load(__DIR__.'/../.env');
 }
 
+<<<<<<< HEAD
 $env = $_SERVER['APP_ENV'] ?? $_ENV['APP_ENV'] ?? 'dev';
 $debug = (bool) ($_SERVER['APP_DEBUG'] ?? $_ENV['APP_DEBUG'] ?? ('prod' !== $env));
+=======
+$env = $_SERVER['APP_ENV'] ?? 'dev';
+$debug = (bool) ($_SERVER['APP_DEBUG'] ?? ('prod' !== $env));
+>>>>>>> e8534e98c0d4f8ebb5e48e892df3f6ab0c04b830
 
 if ($debug) {
     umask(0000);
@@ -24,11 +33,19 @@ if ($debug) {
     Debug::enable();
 }
 
+<<<<<<< HEAD
 if ($trustedProxies = $_SERVER['TRUSTED_PROXIES'] ?? $_ENV['TRUSTED_PROXIES'] ?? false) {
     Request::setTrustedProxies(explode(',', $trustedProxies), Request::HEADER_X_FORWARDED_ALL ^ Request::HEADER_X_FORWARDED_HOST);
 }
 
 if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? $_ENV['TRUSTED_HOSTS'] ?? false) {
+=======
+if ($trustedProxies = $_SERVER['TRUSTED_PROXIES'] ?? false) {
+    Request::setTrustedProxies(explode(',', $trustedProxies), Request::HEADER_X_FORWARDED_ALL ^ Request::HEADER_X_FORWARDED_HOST);
+}
+
+if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? false) {
+>>>>>>> e8534e98c0d4f8ebb5e48e892df3f6ab0c04b830
     Request::setTrustedHosts(explode(',', $trustedHosts));
 }
 

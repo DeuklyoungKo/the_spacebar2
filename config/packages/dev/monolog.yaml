@@ -5,6 +5,7 @@ monolog:
             path: "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug
             channels: ["!event"]
+<<<<<<< HEAD
 
         markdown_logging:
             type: stream
@@ -12,6 +13,8 @@ monolog:
             level: debug
             channels: ["markdown"]
 
+=======
+>>>>>>> e8534e98c0d4f8ebb5e48e892df3f6ab0c04b830
         # uncomment to get logging in your browser
         # you may have to allow bigger header sizes in your Web server configuration
         #firephp:

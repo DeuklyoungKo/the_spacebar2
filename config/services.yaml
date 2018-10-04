@@ -4,7 +4,11 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+<<<<<<< HEAD
     cache_adapter: cache.adapter.apcu
+=======
+    locale: 'en'
+>>>>>>> e8534e98c0d4f8ebb5e48e892df3f6ab0c04b830
 
 services:
     # default configuration for services in *this* file
@@ -14,9 +18,12 @@ services:
         public: false       # Allows optimizing the container by removing unused services; this also means
                             # fetching services directly from the container via $container->get() won't work.
                             # The best practice is to be explicit about your dependencies anyway.
+<<<<<<< HEAD
         bind:
             $markdownLogger: '@monolog.logger.markdown'
             $isDebug: '%kernel.debug%'
+=======
+>>>>>>> e8534e98c0d4f8ebb5e48e892df3f6ab0c04b830
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

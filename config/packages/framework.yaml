@@ -27,4 +27,8 @@ framework:
         #default_redis_provider: redis://localhost
 
         # APCu (not recommended with heavy random-write workloads as memory fragmentation can cause perf issues)
+<<<<<<< HEAD
         app: '%cache_adapter%'
+=======
+        #app: cache.adapter.apcu
+>>>>>>> e8534e98c0d4f8ebb5e48e892df3f6ab0c04b830
