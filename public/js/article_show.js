@@ -1,5 +1,5 @@
-$(document).ready(function(){
-    $('.js-like-article').on('click', function (e) {
+$(document).ready(function() {
+    $('.js-like-article').on('click', function(e) {
         e.preventDefault();
 
         var $link = $(e.currentTarget);
@@ -11,7 +11,5 @@ $(document).ready(function(){
         }).done(function(data) {
             $('.js-like-article-count').html(data.hearts);
         })
-
-        // $('.js-like-article-count').html('TEST');
     });
 });
