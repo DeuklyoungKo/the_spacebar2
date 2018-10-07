@@ -8,17 +8,16 @@ use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Twig\Environment;
 
 class ArticleController extends AbstractController
 {
     /**
-     * @var
+     * Currently unused: just showing a controller with a constructor!
      */
     private $isDebug;
 
-    /**
-     * ArticleController constructor.
-     */
     public function __construct(bool $isDebug)
     {
         $this->isDebug = $isDebug;
@@ -37,18 +36,15 @@ class ArticleController extends AbstractController
      */
     public function show($slug, MarkdownHelper $markdownHelper, SlackClient $slack)
     {
-
-        if($slug === 'khaaaaaan'){
-//            $slack->sendMessage('Khan','Ah, Kirk, my old friend... hoho');
+        if ($slug === 'khaaaaaan') {
+            $slack->sendMessage('Kahn', 'Ah, Kirk, my old friend...');
         }
-
 
         $comments = [
             'I ate a normal rock once. It did NOT taste like bacon!',
             'Woohoo! I\'m going on an all-asteroid diet!',
             'I like bacon too! Buy some from my site! bakinsomebacon.com',
         ];
-
 
         $articleContent = <<<EOF
 Spicy **jalapeno bacon** ipsum dolor amet veniam shank in dolore. Ham hock nisi landjaeger cow,
@@ -70,7 +66,6 @@ fugiat.
 EOF;
 
         $articleContent = $markdownHelper->parse($articleContent);
-
 
         return $this->render('article/show.html.twig', [
             'title' => ucwords(str_replace('-', ' ', $slug)),
