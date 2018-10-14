@@ -3,13 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Article;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\ArticleRepository;
 use Nexy\Slack\Client;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Twig\Environment;
+
 
 class ArticleController extends AbstractController
 {
@@ -29,18 +29,23 @@ class ArticleController extends AbstractController
     /**
      * @Route("/", name="app_homepage")
      */
-    public function homepage()
+    public function homepage(ArticleRepository $repository)
     {
-        return $this->render('article/homepage.html.twig');
+        $articles = $repository->findAllPublishedOrderedByNewest();
+
+        return $this->render('article/homepage.html.twig',[
+            'articles' => $articles,
+        ]);
+
     }
 
     /**
      * @Route("/news/{slug}", name="article_show")
      */
-    public function show($slug, Client $slack, EntityManagerInterface $em)
+    public function show(Article $article, Client $slack)
     {
 
-        if($slug === 'khaaaaaan'){
+        if($article->getSlug() === 'khaaaaaan'){
             $message = $slack->createMessage()
                 ->from('khan')
                 ->withIcon(':ghost:')
@@ -49,14 +54,13 @@ class ArticleController extends AbstractController
             $slack->sendMessage($message);
         }
 
-        $repository = $em->getRepository(Article::class);
-        /** @var Article $article */
-        $article = $repository->findOneBy(['slug'=> $slug]);
-
-        if(!$article){
-            throw $this->createNotFoundException(sprintf('No article for slug "%s"', $slug));
-        }
-
+//        $repository = $em->getRepository(Article::class);
+//        /** @var Article $article */
+//        $article = $repository->findOneBy(['slug'=> $slug]);
+//
+//        if(!$article){
+//            throw $this->createNotFoundException(sprintf('No article for slug "%s"', $slug));
+//        }
 
         $comments = [
             'I ate a normal rock once. It did NOT taste like bacon!',
