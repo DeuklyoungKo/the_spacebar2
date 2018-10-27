@@ -11,15 +11,8 @@ use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
-    /**
-     * @var MarkdownHelper
-     */
     private $container;
 
-
-    /**
-     * AppExtension constructor.
-     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
@@ -28,26 +21,21 @@ class AppExtension extends AbstractExtension implements ServiceSubscriberInterfa
     public function getFilters(): array
     {
         return [
-            // If your filter generates SAFE HTML, you should add a third
-            // parameter: ['is_safe' => ['html']]
-            // Reference: https://twig.symfony.com/doc/2.x/advanced.html#automatic-escaping
-            new TwigFilter('cached_markdown', [$this, 'processMarkdown'],['is_safe' => ['html']]),
+            new TwigFilter('cached_markdown', [$this, 'processMarkdown'], ['is_safe' => ['html']]),
         ];
     }
 
-
     public function processMarkdown($value)
     {
-        return $this->container->get('foo')->parse($value);
+        return $this->container
+            ->get(MarkdownHelper::class)
+            ->parse($value);
     }
-
 
     public static function getSubscribedServices()
     {
         return [
-            'foo' => MarkdownHelper::class,
+            MarkdownHelper::class,
         ];
     }
-
-
 }

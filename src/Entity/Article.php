@@ -56,8 +56,7 @@ class Article
      */
     private $imageFilename;
 
-
-    public function getId(): ?int
+    public function getId()
     {
         return $this->id;
     }
@@ -73,6 +72,7 @@ class Article
 
         return $this;
     }
+
 
     public function getSlug(): ?string
     {
@@ -134,6 +134,13 @@ class Article
         return $this;
     }
 
+    public function incrementHeartCount(): self
+    {
+        $this->heartCount = $this->heartCount + 1;
+
+        return $this;
+    }
+
     public function getImageFilename(): ?string
     {
         return $this->imageFilename;
@@ -146,15 +153,8 @@ class Article
         return $this;
     }
 
-    public function  getImagePath()
+    public function getImagePath()
     {
         return 'images/'.$this->getImageFilename();
     }
-
-    public function incrementHeartCount(): self
-    {
-        $this->heartCount = $this->heartCount + 1;
-        return $this;
-    }
-
 }

@@ -4,25 +4,24 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
+use App\Service\MarkdownHelper;
+use App\Service\SlackClient;
 use Doctrine\ORM\EntityManagerInterface;
-use Nexy\Slack\Client;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
+use Symfony\Component\HttpFoundation\Response;
+use Twig\Environment;
 
 class ArticleController extends AbstractController
 {
     /**
-     * @var
+     * Currently unused: just showing a controller with a constructor!
      */
     private $isDebug;
 
-    /**
-     * ArticleController constructor.
-     */
-    public function __construct(bool $isDebug, Client $slack)
+    public function __construct(bool $isDebug)
     {
         $this->isDebug = $isDebug;
     }
@@ -34,41 +33,25 @@ class ArticleController extends AbstractController
     {
         $articles = $repository->findAllPublishedOrderedByNewest();
 
-        return $this->render('article/homepage.html.twig',[
+        return $this->render('article/homepage.html.twig', [
             'articles' => $articles,
         ]);
-
     }
 
     /**
      * @Route("/news/{slug}", name="article_show")
      */
-    public function show(Article $article, Client $slack)
+    public function show(Article $article, SlackClient $slack)
     {
-
-        if($article->getSlug() === 'khaaaaaan'){
-            $message = $slack->createMessage()
-                ->from('khan')
-                ->withIcon(':ghost:')
-                ->setText('Ah, Kirk, my old friend...');
-
-            $slack->sendMessage($message);
+        if ($article->getSlug() === 'khaaaaaan') {
+            $slack->sendMessage('Kahn', 'Ah, Kirk, my old friend...');
         }
-
-//        $repository = $em->getRepository(Article::class);
-//        /** @var Article $article */
-//        $article = $repository->findOneBy(['slug'=> $slug]);
-//
-//        if(!$article){
-//            throw $this->createNotFoundException(sprintf('No article for slug "%s"', $slug));
-//        }
 
         $comments = [
             'I ate a normal rock once. It did NOT taste like bacon!',
             'Woohoo! I\'m going on an all-asteroid diet!',
             'I like bacon too! Buy some from my site! bakinsomebacon.com',
         ];
-
 
         return $this->render('article/show.html.twig', [
             'article' => $article,
@@ -83,8 +66,6 @@ class ArticleController extends AbstractController
     {
         $article->incrementHeartCount();
         $em->flush();
-
-        // TODO - actually heart/unheart the article!
 
         $logger->info('Article is being hearted!');
 
