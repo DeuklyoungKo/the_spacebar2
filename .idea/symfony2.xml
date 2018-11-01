@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Symfony2PluginSettings">
+    <option name="directoryToWeb" value="/var/www/the_spacebar/public" />
+    <option name="directoryToApp" value="/var/www/the_spacebar" />
+    <option name="pluginEnabled" value="true" />
+    <option name="codeFoldingPhpModel" value="false" />
+    <option name="profilerCsvPath" value="" />
+  </component>
+</project>
